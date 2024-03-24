@@ -2,7 +2,7 @@
  ============================================================================
  File Name		: Lexer.h
  Author			: Ahmed Emad Hassan
- Version		: 1.0
+ Version		: 1.1
  Date			: 14/3/2023
  Description	: This file containes a Class that have the implementation of lexer
  Notes			: The lexer takes input string that contains C language or file that containes the language
@@ -19,6 +19,7 @@
 #include <vector>
 #include <queue>
 #include <stack>
+#include "Token.h"
 using namespace std;
 class Lexer {
 private:
@@ -38,6 +39,11 @@ private:
 	vector<char> first_char_operators = { '+','-','*','/'/*no two slashes out string*/,'%','>','<','=','&','|','!','~','^','?',':','.'};
 	vector<char> special_characters = { '(', ')', '[', ']', '{', '}', ',', ';' };
 
+	/* nameing values */
+	vector<string> symbolTable;
+	vector<Token> Tokens;
+	int TokenNumber(vector<string>& tokens);
+	int GetTokenNumber(string Token,int id);
 	//checker functions
 	bool is_letter(char c);
 	bool is_number(char c);
@@ -50,6 +56,11 @@ private:
 	bool is_specialChar(char c);
 	bool is_exp(char c);
 	bool is_sign(char c);
+
+	bool is_identifier(string token);
+	bool is_operator(string token);
+	bool is_specialChar(string token);
+	bool is_number(string token);
 	//state functions
 	void state_start();
 	void state_num();
@@ -79,4 +90,8 @@ public:
 	vector<string> getTokens();
 	//print function
 	void PrintOutput();
+	//get objects
+	void createObjectTokens();
+	vector<Token> getObjectTokens();
+	void printObjectTokens();
 };

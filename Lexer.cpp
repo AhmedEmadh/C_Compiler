@@ -2,7 +2,7 @@
  ============================================================================
  File Name		: Lexer.cpp
  Author			: Ahmed Emad Hassan
- Version		: 1.0
+ Version		: 1.1
  Date			: 14/3/2023
 					
  Description	: This file containes a Class that has the implementation of lexer
@@ -19,6 +19,8 @@
 #include <sstream>
 #include <string>
 #include "Lexer.h"
+#include "Token.h"
+#include "TokenType.h"
 template <typename T>
 T Lexer::pop(queue<T>& q) {
 	T temp = q.front();
@@ -225,6 +227,7 @@ void Lexer::scan() {
 			break;
 		}
 	}
+	createObjectTokens();
 }
 
 void Lexer::PrintOutput() {
@@ -233,6 +236,10 @@ void Lexer::PrintOutput() {
 		cout << token <<endl;
 	}
 }
+int Lexer::TokenNumber(vector<string>& tokens) {
+	return 0;
+}
+/* States */
 void Lexer::state_start() {
 	if (is_letter(input[i]) || input[i] == '_') {//if letter found then go to state letter
 		state = State::id;
@@ -481,7 +488,6 @@ void Lexer::state_hash() {
 		state = State::error;
 	}
 }
-
 void Lexer::state_operator() {
 	if (input[i] == '+' && input[i + 1] == '+') 
 	{// ++
@@ -646,4 +652,160 @@ void Lexer::state_specialCharacter() {
 	i++;
 	tokens.push_back(getStringFromCharQueue(Qchar));
 	state = State::start;
+}
+
+int Lexer::GetTokenNumber(string Token,int id) {
+	int counter = 0;
+	for (int i = 0; i < id;i++) {
+		if (Token == tokens[i]) {
+			counter++;
+		}
+	}
+	return counter;
+}
+bool Lexer::is_identifier(string token) {
+	bool result = true;
+	int i = 0;
+	for (char letter : token) {
+		if (i == 0 && is_letter(letter)) {
+			//nothing
+		}
+		else if(i != 0 && (is_letter(letter)||is_number(letter))) {
+			//nothing
+		}
+		else {
+			/* not a letter or a number */
+			result = false;
+			return result;
+		}
+		i++;
+	}
+	return result;
+}
+bool is_string(string token)
+{
+	for (int i = 0; i < token.length(); i++)
+	{
+		if (i == 0 && token[i] == '\"') {
+			//do nothing
+		}
+		else if (i == token.length() - 1 && token[i] == '\"') {
+			//do nothing
+		}
+		else {
+			return false;
+		}
+	}
+	return true;
+}
+bool is_char(string token) {
+	for (int i = 0; i < token.length(); i++) {
+		if (i == 0 && token[i] == '\'') {
+			//do nothing
+		}
+		else if (i == token.length() - 1 && token[i] == '\'') {
+			//do nothing
+		}
+		else {
+			return false;
+		}
+	}
+	return true;
+}
+bool Lexer::is_number(string token) {
+	bool result = false;
+	if (token[0]> '0' && token[0]<='9') {
+		result = true;
+	}
+	else {
+		result = false;
+	}
+	return result;
+}
+bool Lexer::is_operator(string token) {
+	bool result = false;
+	for (char c : first_char_operators) {
+		if (c == token[0]) {
+			result = true;
+		}
+	}
+	return result;
+}
+bool Lexer::is_specialChar(string token) {
+	bool result = false;
+	for (char c : special_characters) {
+		if (c == token[0]) {
+			result = true;
+		}
+	}
+	return result;
+}
+void Lexer::createObjectTokens(){
+	int id = 0;
+	for (string local_token : tokens) {
+		if (is_reserved(local_token))
+		{
+			Tokens.push_back(Token(id, local_token, TokenType::Reserved, GetTokenNumber(local_token,id)));
+		}
+		else if (is_identifier(local_token)) {
+			Tokens.push_back(Token(id, local_token, TokenType::Identifier, GetTokenNumber(local_token, id)));
+		}
+		else if (is_string(local_token)) {
+			// Number, Operator
+			Tokens.push_back(Token(id, local_token, TokenType::String, GetTokenNumber(local_token, id)));
+		}
+		else if (is_char(local_token)) {
+			Tokens.push_back(Token(id, local_token, TokenType::Char, GetTokenNumber(local_token, id)));
+		}
+		else if (is_number(local_token)) {
+			Tokens.push_back(Token(id, local_token, TokenType::Number, GetTokenNumber(local_token, id)));
+		}
+		else if (is_operator(local_token)) {
+			Tokens.push_back(Token(id, local_token, TokenType::Operator, GetTokenNumber(local_token, id)));
+		}
+		else if (is_specialChar(local_token)) {
+			Tokens.push_back(Token(id, local_token, TokenType::SpecialChar, GetTokenNumber(local_token, id)));
+		}
+		id++;
+	}
+}
+
+vector<Token> Lexer::getObjectTokens() {
+	return Tokens;
+}
+void Lexer::printObjectTokens() {
+	for (Token object_token : Tokens) {
+		cout << "Token ID: " << object_token.id<<" ";
+		cout << "Token Number: " << object_token.number<<" ";
+		cout << "Token Type: ";
+		if (object_token.type == TokenType::Char)
+		{
+			cout << "Char";
+		}
+		else if (object_token.type == TokenType::Identifier)
+		{
+			cout << "Identifier";
+		}
+		else if (object_token.type == TokenType::Number) {
+			cout << "Number";
+		}
+		else if (object_token.type == TokenType::Operator)
+		{
+			cout << "Operator";
+		}
+		else if (object_token.type == TokenType::Reserved)
+		{
+			cout << "Reserved";
+		}
+		else if (object_token.type == TokenType::SpecialChar)
+		{
+			cout << "SpecialChar";
+		}
+		else if (object_token.type == TokenType::String)
+		{
+			cout << "String";
+		}
+		cout << "Token Value: " << object_token.value;
+		cout << endl;
+	}
 }
