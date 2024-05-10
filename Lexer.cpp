@@ -749,6 +749,8 @@ void Lexer::createObjectTokens(){
 		}
 		else if (is_identifier(local_token)) {
 			Tokens.push_back(Token(id, local_token, TokenType::Identifier, GetTokenNumber(local_token, id)));
+			//adding the identifier to the symbol table
+			addTokenToSymbolTable(local_token, GetTokenNumber(local_token, id));
 		}
 		else if (is_string(local_token)) {
 			// Number, Operator
@@ -808,4 +810,47 @@ void Lexer::printObjectTokens() {
 		cout << "Token Value: " << object_token.value;
 		cout << endl;
 	}
+}
+
+//using hash to add to add iddentifier to symbol table
+int Lexer::addTokenToSymbolTable(string tokenValue, int offset) {
+	int index = 0;
+		for (auto& symbol : symbolTable) {
+			if (tokenValue == symbol.first) {
+				symbol.second.push_back(offset);
+				return index;
+			}
+			index++;
+		}
+		symbolTable.push_back({ tokenValue, { offset } });
+		return index;
+}
+
+void Lexer::printSymbolTable() {
+	for (pair<string, vector<int>> symbol : symbolTable) {
+		cout << "Token: " << symbol.first << " ";
+		cout << "Offsets: ";
+		for (int offset : symbol.second) {
+			cout << offset << " ";
+		}
+		cout << endl;
+	}
+}
+
+string Lexer::getTokenIndexFromSymbolTable(int index) {
+	if (index >= 0 && index < symbolTable.size()) {
+		return symbolTable[index].first;
+	}
+	return "";
+}
+
+int Lexer::getTokenIndexFromSymbolTable(string value) {
+	int i = 0;
+	for (pair<string, vector<int>> symbol : symbolTable) {
+		if (value == symbol.first) {
+			return i;
+		}
+		i++;
+	}
+	return -1;
 }

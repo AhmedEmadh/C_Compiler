@@ -1,0 +1,5 @@
+git status
+/examples/*.cpp
+/.mono/
+/.vscode/
+Makefile

@@ -40,7 +40,7 @@ private:
 	vector<char> special_characters = { '(', ')', '[', ']', '{', '}', ',', ';' };
 
 	/* nameing values */
-	vector<string> symbolTable;
+	vector<pair<string, vector <int>>> symbolTable;
 	vector<Token> Tokens;
 	int TokenNumber(vector<string>& tokens);
 	int GetTokenNumber(string Token,int id);
@@ -79,7 +79,12 @@ private:
 	template <typename T>
 	T pop(queue<T>& q);
 	string getStringFromCharQueue(queue<char>& qchar);
-	
+
+
+	//symbol table functions
+	int addTokenToSymbolTable(string tokenValue, int offset);//add iddentifier to symbol table
+
+
 public:
 	Lexer(std::string local_input);
 	Lexer();
@@ -94,4 +99,9 @@ public:
 	void createObjectTokens();
 	vector<Token> getObjectTokens();
 	void printObjectTokens();
+
+	//symbol table functions
+	void printSymbolTable();
+	string getTokenIndexFromSymbolTable(int index); // returns -1 if not found
+	int getTokenIndexFromSymbolTable(string value); // returns -1 if not found
 };
