@@ -18,3 +18,10 @@ Token::Token(int id, std::string value, TokenType type, int number) {
 	this->type = type;
 	this->number = number;
 }
+
+Token::Token() {
+	this->id = 0;
+	this->value = "";
+	this->type = TokenType::UNDEFINED;
+	this->number = 0;
+}

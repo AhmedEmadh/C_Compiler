@@ -1,6 +1,3 @@
-#include "TreeNode.h"
-
-
 //tree node class implementation
 
 #include "TreeNode.h"
@@ -31,3 +28,12 @@ std::string TreeNode::getNodeName() {
 std::string TreeNode::getDesc() {
     return desc;
 }
+
+std::vector<TreeNode*> TreeNode::getChildren() {
+    return children;
+}
+
+bool TreeNode::hasChildren() {
+    return !children.empty();
+}
+

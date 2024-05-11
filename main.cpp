@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Lexer.h"
+#include "Parser.h"
 
 int main() {
 
@@ -8,14 +9,14 @@ int main() {
 
     // Tokenize the input code
     lexer.scan();
-
-    // Get the tokens from the lexer
-    std::vector<string> tokens = lexer.getTokens();
-    lexer.PrintOutput();
-    cout << "------------------------object tokens---------------------------------" << endl;
     
-    // Print the tokens
-    lexer.printObjectTokens();
-    lexer.printSymbolTable();
+    // // Print the tokens
+    // lexer.printSymbolTable();
+    //print the tokens
+    lexer.PrintOutput();
+    
+    // create an instance of Parser
+    Parser parser(lexer.getObjectTokens());
+    parser.visualizeParseTree(parser.parse());
     return 0;
 }

@@ -22,5 +22,6 @@ public:
 	TokenType type;
 	int number;
 	Token(int id,std::string value,TokenType type,int number);
+	Token();
 };
 
