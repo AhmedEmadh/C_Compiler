@@ -88,7 +88,7 @@ TreeNode* Parser::declaration() {
             
             // Add the variable declaration node as a child of the declaration node
             decl->addChild(variable_declaration());
-        }  if (match("(")) {
+        } else if (match("(")) {
             
             // Add the function declaration node as a child of the declaration node
             decl->addChild(function_declaration());

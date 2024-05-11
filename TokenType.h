@@ -12,5 +12,5 @@
 
 #pragma once
 enum class TokenType {
-	Identifier, Number, String, Char, Operator, Reserved,SpecialChar
+	Identifier, Number, String, Char, Operator, Reserved,SpecialChar, UNDEFINED
 };
