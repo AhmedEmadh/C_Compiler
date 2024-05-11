@@ -707,7 +707,7 @@ bool is_char(string token) {
 }
 bool Lexer::is_number(string token) {
 	bool result = false;
-	if (token[0]> '0' && token[0]<='9') {
+	if (token[0]>= '0' && token[0]<='9') {
 		result = true;
 	}
 	else {

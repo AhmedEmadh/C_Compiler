@@ -159,7 +159,7 @@ private:
     TreeNode* identifier();
     TreeNode* literal();
     TreeNode* number();
-    TreeNode* string();
+    TreeNode* _string();
 
     
 public:
@@ -168,7 +168,7 @@ public:
     void setInput(std::string input); //string
 
     TreeNode* parse();   
-    TreeNode* recursively_parse();
+    void recursiveDescentParser();
     void visualizeParseTree(TreeNode* root);
     void visualize_parse_tree_aux(TreeNode* node, std::ostream& out);
     void print_error();

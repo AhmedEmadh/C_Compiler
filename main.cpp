@@ -13,8 +13,8 @@ int main() {
     // // Print the tokens
     // lexer.printSymbolTable();
     //print the tokens
-    // lexer.printObjectTokens();
-    
+    lexer.printObjectTokens();
+    cout << "-------------------------------" << endl;
     //create an instance of Parser
     Parser parser(lexer.getObjectTokens());
     parser.visualizeParseTree(parser.parse());

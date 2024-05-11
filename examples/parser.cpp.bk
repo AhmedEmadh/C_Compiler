@@ -1,3 +1,4 @@
+
 //implementatoin of the parser class
 
 #include <iostream>
@@ -667,7 +668,7 @@ TreeNode* Parser::number() {
 }
 
 // implementation of string function
-TreeNode* Parser::string() {
+TreeNode* Parser::_string() {
     // Create a new string node
     TreeNode* str = new TreeNode("String");
     // Check if the token is a string
@@ -686,15 +687,33 @@ TreeNode* Parser::string() {
 }
 
 
-TreeNode* Parser::recursively_parse() {
-    // next_token();
-    return program();
+// implementation of parse function
+TreeNode* Parser::parse() {
+    // Parse the program
+    TreeNode* root = program();
+
+    // Check if there are any tokens left
+    if (token_index < tokens.size()) {
+        // Print an error message
+        std::cout << "Error: Unexpected token " << current_token.value << std::endl;
+        // Set the error flag to true
+        error = true;
+    }
+
+    // Return the root node of the parse tree
+    return root;
 }
 
-TreeNode* Parser::parse() {
-    token_index = 0;
-    error = false;
-    return recursively_parse();
+// implementation of recursiveDescentParser function
+void Parser::recursiveDescentParser() {
+    // Parse the program
+    TreeNode* root = parse();
+
+    // Check if there was an error during parsing
+    if (error) {
+        // Print an error message
+        std::cout << "Error: Parsing failed" << std::endl;
+    }
 }
 
 
