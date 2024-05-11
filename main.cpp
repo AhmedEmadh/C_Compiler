@@ -4,16 +4,18 @@
 int main() {
 
     // Create an instance of Lexer with the input code
-    Lexer lexer("test.cpp");
+    Lexer lexer("tests/test1.cpp");
 
     // Tokenize the input code
     lexer.scan();
 
     // Get the tokens from the lexer
-    std::vector<Token> tokens = lexer.getObjectTokens();
-
+    std::vector<string> tokens = lexer.getTokens();
+    lexer.PrintOutput();
+    cout << "------------------------object tokens---------------------------------" << endl;
+    
     // Print the tokens
-    //lexer.printObjectTokens();
+    lexer.printObjectTokens();
     lexer.printSymbolTable();
     return 0;
 }

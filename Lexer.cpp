@@ -684,19 +684,12 @@ bool Lexer::is_identifier(string token) {
 }
 bool is_string(string token)
 {
-	for (int i = 0; i < token.length(); i++)
-	{
-		if (i == 0 && token[i] == '\"') {
-			//do nothing
-		}
-		else if (i == token.length() - 1 && token[i] == '\"') {
-			//do nothing
-		}
+	if (token[0] == '\"' && token[token.length() - 1] == '\"') {
+			return true;
+		} 
 		else {
 			return false;
 		}
-	}
-	return true;
 }
 bool is_char(string token) {
 	for (int i = 0; i < token.length(); i++) {
