@@ -13,9 +13,9 @@ int main() {
     // // Print the tokens
     // lexer.printSymbolTable();
     //print the tokens
-    lexer.PrintOutput();
+    // lexer.printObjectTokens();
     
-    // create an instance of Parser
+    //create an instance of Parser
     Parser parser(lexer.getObjectTokens());
     parser.visualizeParseTree(parser.parse());
     return 0;

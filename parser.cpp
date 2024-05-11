@@ -46,7 +46,7 @@ bool Parser::match(std::string expected) {
 // implementation of error_message function
 void Parser::error_message(std::string expected) {
     // Print an error message
-    std::cout << "Error: Expected " << expected << " at token " << current_token.value << std::endl;
+    std::cout << "Error: Expected " << expected << " at token " << current_token.value << " || ID: " << current_token.id<<std::endl;
     // Set the error flag to true
     error = true;
 }
@@ -57,7 +57,7 @@ TreeNode* Parser::program() {
     // Create a new root node
     TreeNode* root = new TreeNode("Program");
     // Add the declaration list node as a child of the root node
-    root->addChild(declaration_list());
+    root->addChild(statement_list());
     // Return the root node
     return root;
 }
