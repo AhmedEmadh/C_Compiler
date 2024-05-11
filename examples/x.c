@@ -1,3 +1,71 @@
+/ Nodes in the parse tree can be represented by this very very very minimal class
+class parse_tree_node {
+public:
+    bool is_terminal;
+    std::string label;
+    std::deque<parse_tree_node*> children;
+    parse_tree_node(std::string l, bool t) : label(l), is_terminal(t) {}
+};
+
+class Parser {
+private:
+    Lexer lexer;
+    Token current_token;
+    int token_index = 0;
+    std::vector<Token> tokens;
+    parse_tree_node* root;
+    parse_tree_node* current_node;
+    bool error = false;
+
+    // Helper functions
+    void next_token();
+    bool match(std::string expected);
+    void error_message(std::string expected);
+
+    // Recursive descent functions
+    parse_tree_node* program();
+    parse_tree_node* declaration_list();
+    parse_tree_node* declaration();
+    parse_tree_node* variable_declaration();
+    parse_tree_node* identifier_list();
+    parse_tree_node* data_type();
+    parse_tree_node* function_declaration();
+    parse_tree_node* parameter_list();
+    parse_tree_node* parameter();
+    parse_tree_node* compound_statement();
+    parse_tree_node* statement_list();
+    parse_tree_node* statement();
+    parse_tree_node* expression_statement();
+    parse_tree_node* if_statement();
+    parse_tree_node* while_statement();
+    parse_tree_node* for_statement();
+    parse_tree_node* return_statement();
+    parse_tree_node* expression();
+    parse_tree_node* assignment_expression();
+    parse_tree_node* logical_or_expression();
+    parse_tree_node* logical_and_expression();
+    parse_tree_node* equality_expression();
+    parse_tree_node* relational_expression();
+    parse_tree_node* additive_expression();
+    parse_tree_node* multiplicative_expression();
+    parse_tree_node* primary_expression();
+    parse_tree_node* function_call();
+    parse_tree_node* argument_list();
+    parse_tree_node* identifier();
+    parse_tree_node* literal();
+    parse_tree_node* number();
+    parse_tree_node* string();
+
+public:
+    Parser(std::string input);
+    void parse();
+    void print_parse_tree();
+    void print_error();
+    bool has_error();
+};
+
+
+
 // This file contains a recursive descent parser for C.
 //
 // Most functions in this file are named after the symbols they are

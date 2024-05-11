@@ -3,3 +3,4 @@ git status
 /.mono/
 /.vscode/
 Makefile
+grammar.txt

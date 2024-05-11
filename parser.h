@@ -106,17 +106,10 @@ string             -> "([^"\\]*(\\.)*[^"\\]*)*"
 #include <vector>
 #include "Token.h"
 #include "Lexer.h"
+#include "TreeNode.h"
 
 using namespace std;
 
-// Nodes in the parse tree can be represented by this very very very minimal class
-class parse_tree_node {
-public:
-    bool is_terminal;
-    std::string label;
-    std::deque<parse_tree_node*> children;
-    parse_tree_node(std::string l, bool t) : label(l), is_terminal(t) {}
-};
 
 class Parser {
 private:
@@ -124,8 +117,8 @@ private:
     Token current_token;
     int token_index = 0;
     std::vector<Token> tokens;
-    parse_tree_node* root;
-    parse_tree_node* current_node;
+    TreeNode::treeNode* root;
+    treeNode* current_node; //will I be needing this? i think not
     bool error = false;
 
     // Helper functions
@@ -134,42 +127,49 @@ private:
     void error_message(std::string expected);
 
     // Recursive descent functions
-    parse_tree_node* program();
-    parse_tree_node* declaration_list();
-    parse_tree_node* declaration();
-    parse_tree_node* variable_declaration();
-    parse_tree_node* identifier_list();
-    parse_tree_node* data_type();
-    parse_tree_node* function_declaration();
-    parse_tree_node* parameter_list();
-    parse_tree_node* parameter();
-    parse_tree_node* compound_statement();
-    parse_tree_node* statement_list();
-    parse_tree_node* statement();
-    parse_tree_node* expression_statement();
-    parse_tree_node* if_statement();
-    parse_tree_node* while_statement();
-    parse_tree_node* for_statement();
-    parse_tree_node* return_statement();
-    parse_tree_node* expression();
-    parse_tree_node* assignment_expression();
-    parse_tree_node* logical_or_expression();
-    parse_tree_node* logical_and_expression();
-    parse_tree_node* equality_expression();
-    parse_tree_node* relational_expression();
-    parse_tree_node* additive_expression();
-    parse_tree_node* multiplicative_expression();
-    parse_tree_node* primary_expression();
-    parse_tree_node* function_call();
-    parse_tree_node* argument_list();
-    parse_tree_node* identifier();
-    parse_tree_node* literal();
-    parse_tree_node* number();
-    parse_tree_node* string();
+    treeNode* program();
+    treeNode* declaration_list();
+    treeNode* declaration();
+    treeNode* variable_declaration();
+    treeNode* identifier_list();
+    treeNode* data_type();
+    treeNode* function_declaration();
+    treeNode* parameter_list();
+    treeNode* parameter();
+    treeNode* compound_statement();
+    treeNode* statement_list();
+    treeNode* statement();
+    treeNode* expression_statement();
+    treeNode* if_statement();
+    treeNode* while_statement();
+    treeNode* for_statement();
+    treeNode* return_statement();
+    treeNode* expression();
+    treeNode* assignment_expression();
+    treeNode* logical_or_expression();
+    treeNode* logical_and_expression();
+    treeNode* equality_expression();
+    treeNode* relational_expression();
+    treeNode* additive_expression();
+    treeNode* multiplicative_expression();
+    treeNode* primary_expression();
+    treeNode* function_call();
+    treeNode* argument_list();
+    treeNode* identifier();
+    treeNode* literal();
+    treeNode* number();
+    treeNode* string();
 
+    // Recursive descent parser implementation, should return the root node of the parse tree
+    treeNode* recursively_parse();
+    
 public:
-    Parser(std::string input);
-    void parse();
+    Parser(std::string inputFilePath);//file path
+    Parser();
+    void setFilePath(std::string inputFilePath);
+    void setInput(std::string input); //string
+
+    void parse();   
     void print_parse_tree();
     void print_error();
     bool has_error();
